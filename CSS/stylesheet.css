@@ -1,3 +1,113 @@
-/* 
-Index.php
-*/
+body,
+h1,
+h2,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+  background: #f4f4f4;
+}
+
+/* Sidebar Navigation */
+.sidebar {
+  width: 250px;
+  height: 100vh; /* Full height of the viewport */
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Pushes content to fill space */
+  position: fixed; /* Sticks to the left */
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  flex-grow: 1; /* Allows menu items to fill space */
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+/* Push Copyright to Bottom */
+.sidebar h5 {
+  margin-top: auto; /* Pushes it to the bottom */
+  text-align: center;
+  font-size: 14px;
+  color: #ccc;
+  padding-top: 10px;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background: #34495e;
+}
+
+/* Main Content */
+.content {
+  margin-left: 250px; /* Moves content to the right of sidebar */
+  flex-grow: 1;
+  padding: 50px;
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 32px;
+  color: #333;
+}
+
+.content p {
+  font-size: 18px;
+  margin-top: 10px;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .sidebar ul {
+    display: flex;
+    justify-content: center;
+  }
+
+  .sidebar ul li {
+    margin: 0 10px;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
+}
