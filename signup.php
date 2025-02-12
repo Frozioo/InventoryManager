@@ -15,9 +15,6 @@
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $empty = false;
             $message = "Invalid email format.";
-        } elseif ($password !== $password2) {
-            $empty = false;
-            $message = "Passwords do not match.";
         } else {
             try {
                 // Check if the user already exists
@@ -59,29 +56,62 @@
 </head>
 <body class="login-body">
 
-    <div class="container">
+<div class="container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <h2>Inventory Manager</h2>
             <ul>
                 <li><a href="index.php">Home</a></li>
-                <li><a href="login.php" class="active">Login</a></li>
-                <li><a href="signup.php">Sign Up</a></li>
+                <li><a href="login.php">Login</a></li>
+                <li><a href="signup.php" class="active">Sign Up</a></li>
             </ul>
             <h5>Copyright © 2025 Trey Larson</h5>
         </nav>
-    <main class="content">
-        <h2>Sign Up</h2>
-        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br>
-            <label for="password2">Confirm Password:</label>
-            <input type="password" id="password2" name="password2" required><br>
-            <?php if (!$empty) { echo "<div class='error'>".$message."</div>"; } ?>
-            <button type="submit">Sign Up</button>
-        </form>
+
+        <!-- Main Content -->
+        <main class="content">
+            <h1>Sign Up</h1>
+            <p>Create your account to start managing your inventory.</p>
+
+            <!-- Signup Form -->
+            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="password2">Confirm Password:</label>
+                <input type="password" id="password2" name="password2" required>
+
+                <div id="password-error" class="error"></div>
+
+                <button type="submit">Sign Up</button>
+
+                <?php if (!empty($message)): ?>
+                    <p class="error"><?php echo $message; ?></p>
+                <?php endif; ?>
+            </form>
+        </main>
     </div>
+
+    <!-- JavaScript for Live Password Validation -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const password = document.getElementById("password");
+            const password2 = document.getElementById("password2");
+            const errorDiv = document.getElementById("password-error");
+
+            password2.addEventListener("input", function() {
+                if (password.value !== password2.value) {
+                    errorDiv.textContent = "Passwords do not match!";
+                    errorDiv.style.color = "red";
+                } else {
+                    errorDiv.textContent = "";
+                }
+            });
+        });
+    </script>
+
 </body>
 </html>
