@@ -1,7 +1,7 @@
 <?php
     require "/home/tmlarson/connections/connect.php";
     
-    $message = ""; // Initialize message variable
+    $message = "";
     $empty = true;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
