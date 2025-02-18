@@ -1,3 +1,7 @@
+<!-- Will need to start adding more functionality to this page.
+     Going to edit the database to add more unique data sets. 
+     Currenty waiting for Turing to go back online so I can start developing again-->
+
 <?php
     require '/home/tmlarson/connections/connect.php';
 
