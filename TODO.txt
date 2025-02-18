@@ -1,0 +1,4 @@
+1. Functionality to add a new products into users inventory database
+2. Functionality to update the quantity of the products in the users inventory database
+3. Functionality to delete the products from the users inventory database
+4. Modernize the UI of the application
