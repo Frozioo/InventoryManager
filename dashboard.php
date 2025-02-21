@@ -57,7 +57,7 @@
     $categories = $stmtCategories->fetchAll(PDO::FETCH_ASSOC);
 
     // Fetch selected category
-    $selected_category_id = isset($_POST['selected_category_id']) ? $_POST['selected_category_id'] : $categories[0]['category_id'];
+    $selected_category_id = isset($_GET['category_id']) ? $_GET['category_id'] : $categories[0]['category_id'];
 
     // Fetch items for the selected category
     $stmtItems = $conn->prepare('SELECT Inventory.*, InventoryCategories.category_name FROM Inventory JOIN InventoryCategories ON Inventory.category_id = InventoryCategories.category_id WHERE Inventory.user_id = :user_id AND Inventory.category_id = :category_id');
@@ -79,28 +79,29 @@
 <div class="container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
-            <h2>Inventory Manager</h2>
+           <h2>Inventory Manager</h2>
             <ul>
-                <li><a href="dashboard.php" class="active">Dashboard</a></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">
+                        Dashboard 
+                        <img id="dropdownArrow" src="assets/drop-down-arrow.png" alt="Dropdown Arrow" class="dropdown-arrow">
+                    </a>
+                    <ul class="dropdown-content" id="categoryDropdown">
+                        <?php foreach ($categories as $category): ?>
+                            <li><a href="dashboard.php?category_id=<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </li>
+                <li><a href="profile.php">Profile</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
-            <h5>Copyright © 2025 Trey Larson</h5>
+            <h5>&copy; 2025 Trey Larson</h5>
         </nav>
 
         <!-- Main Content -->
         <main class="content">
             <h1>Dashboard</h1>
             <p>View your inventory below.</p>
-
-            <!-- Form to select inventory category -->
-            <form method="POST" action="dashboard.php">
-                <label for="selected_category_id">Select Category:</label>
-                <select id="selected_category_id" name="selected_category_id" onchange="this.form.submit()">
-                    <?php foreach ($categories as $category): ?>
-                        <option value="<?php echo $category['category_id']; ?>" <?php echo $category['category_id'] == $selected_category_id ? 'selected' : ''; ?>><?php echo $category['category_name']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </form>
 
             <!-- Form to add new inventory category -->
             <form method="POST" action="dashboard.php">
@@ -139,7 +140,7 @@
                     <th>Description</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    <!-- <th>Category</th> -->
+                    <th>Category</th>
                 </tr>
 
                 <?php foreach ($items as $item): ?>
@@ -148,12 +149,26 @@
                         <td><?php echo $item['description']; ?></td>
                         <td><?php echo $item['quantity']; ?></td>
                         <td><?php echo $item['price']; ?></td>
-                        <!-- <td><?php echo $item['category_name']; ?></td> -->
+                        <td><?php echo $item['category_name']; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </table>
         </main>
     </div>
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("categoryDropdown");
+            var arrow = document.getElementById("dropdownArrow");
+
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+                arrow.style.transform = "rotate(0deg)";
+            } else {
+                dropdown.style.display = "block";
+                arrow.style.transform = "rotate(180deg)";
+            }
+        }
+    </script>
 
 </body>
 </html>
