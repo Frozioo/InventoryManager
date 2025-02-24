@@ -160,7 +160,7 @@
                 </button>
             </div>
 
-            <!-- The Modal -->
+            <!-- Form for category when a user clicks Add Category button -->
             <div id="categoryModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
@@ -173,7 +173,7 @@
             </div>
 
 
-            <!-- The Modal -->
+            <!-- Form for add item when a user clicks Add Item button -->
             <div id="itemModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>
