@@ -321,6 +321,12 @@ table {
   min-width: 2110px;
 }
 
+@media (max-width: 2000px) {
+  table {
+    min-width: 1050px;
+  }
+}
+
 @media (max-width: 1200px) {
   table {
     min-width: 1500px;
@@ -362,4 +368,79 @@ table tr:hover {
 table tr td {
   border-bottom: 1px solid #ddd;
 }
+
+table th.description,
+table td.description {
+  max-width: 300px; /* Adjust the width as needed */
+  word-wrap: break-word; /* Ensures long words break to the next line */
+}
+
+.sort-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.sort-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.sort-dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.sort-dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.sort-container {
+  position: relative;
+  display: inline-block;
+}
+.sort-dropdown-content {
+  display: none;
+}
+
+.sort-dropdown-content.show {
+  display: block;
+}
+
+/* From Uiverse.io by vinodjangid07 */
+.filter {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.192);
+  cursor: pointer;
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.021);
+  transition: all 0.3s;
+}
+
+.filter svg {
+  height: 16px;
+  fill: rgb(77, 77, 77);
+  transition: all 0.3s;
+}
+.filter:hover {
+  box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.11);
+  background-color: rgb(59, 59, 59);
+}
+.filter:hover svg {
+  fill: white;
+}
+
 /* End of Dashboard Page */

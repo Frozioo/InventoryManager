@@ -115,6 +115,23 @@
                   </svg>
                   <input id="searchInput" class="input" type="search" onkeyup="filterTable()" placeholder="Search" />
                 </div>
+
+                <div class="sorting-container">
+                    <button title="filter" class="filter" onclick="toggleSortDropdown()">
+                    <svg viewBox="0 0 512 512" height="1em">
+                        <path
+                        d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z"
+                        ></path>
+                    </svg>
+                    </button>
+                    <div id="sortDropdown" class="sort-dropdown-content">
+                        <a href="javascript:void(0)" onclick="sortTable(2, 'asc')">Quantity (Asc)</a>
+                        <a href="javascript:void(0)" onclick="sortTable(2, 'desc')">Quantity (Desc)</a>
+                        <a href="javascript:void(0)" onclick="sortTable(3, 'asc')">Price (Asc)</a>
+                        <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Price (Desc)</a>
+                    </div>
+                </div>
+
                 <button id="openCategoryModal" class="button">
                     <span class="text">Add Category</span>
                     <span class="icon">
@@ -174,11 +191,11 @@
                 </div>
             </div>
             <!-- Table to display inventory items -->
-
+                                        
             <table id="inventoryTable">
                 <tr>
                     <th>Item</th>
-                    <th>Description</th>
+                    <th class="description">Description</th>
                     <th>Quantity</th>
                     <th>Price</th>
                     <!-- <th>Category</th> -->
@@ -187,7 +204,7 @@
                 <?php foreach ($items as $item): ?>
                     <tr>
                         <td><?php echo $item['item_name']; ?></td>
-                        <td><?php echo $item['description']; ?></td>
+                        <td class="description"><?php echo $item['description']; ?></td>
                         <td><?php echo $item['quantity']; ?></td>
                         <td><?php echo $item['price']; ?></td>
                         <!-- <td><?php echo $item['category_name']; ?></td> -->
@@ -195,7 +212,60 @@
                 <?php endforeach; ?>
             </table>
         </main>
-    </div>
+</div>
+    
+
+    <script>
+        function toggleSortDropdown() {
+            document.getElementById("sortDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.filter')) {
+                var dropdowns = document.getElementsByClassName("sort-dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        function sortTable(columnIndex, order) {
+            var table, rows, switching, i, x, y, shouldSwitch;
+            table = document.getElementById("inventoryTable");
+            switching = true;
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+
+                    if (order === "asc") {
+                        if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (order === "desc") {
+                        if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                }
+            }
+        }
+    </script>
 
     <script>
         function filterTable() {
