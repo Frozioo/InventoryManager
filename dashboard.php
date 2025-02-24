@@ -46,7 +46,7 @@
         $stmtInsertItem->execute();
 
         // Redirect to avoid form resubmission
-        header('Location: dashboard.php');
+        header('Location: dashboard.php?category_id=' . $category_id);
         exit;
     }
 
