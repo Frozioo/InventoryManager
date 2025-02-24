@@ -104,6 +104,8 @@
             <h1>Dashboard</h1>
             <p>View your inventory below.</p>
 
+            <!-- Contains all the buttons used above the dashboard -->
+             <!-- Search field, allows the user to search for items within the table -->
             <div class="button-container">
                 <div class="group">
                   <svg viewBox="0 0 24 24" aria-hidden="true" class="icon2">
@@ -115,7 +117,7 @@
                   </svg>
                   <input id="searchInput" class="input" type="search" onkeyup="filterTable()" placeholder="Search" />
                 </div>
-
+                <!-- Sorting button -->
                 <div class="sorting-container">
                     <button title="filter" class="filter" onclick="toggleSortDropdown()">
                     <svg viewBox="0 0 512 512" height="1em">
@@ -131,6 +133,7 @@
                         <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Price (Desc)</a>
                     </div>
                 </div>
+                <!-- Allows the user to add a category -->
                 <button id="openCategoryModal" class="button">
                     <span class="text">Add Category</span>
                     <span class="icon">
@@ -138,6 +141,7 @@
                         <span class="buttonSpan">+</span>
                     </span>
                 </button>
+                <!-- Lets the user delete a category if they so desire -->
                 <form action="deleteCategory.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
                     <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>">
                     <button type="submit" class="delbtn">
@@ -146,7 +150,7 @@
                         </svg>
                     </button>
                 </form>
-
+                <!-- Allows the user to add an item to the table -->
                 <button id="openItemModal" class="button">
                     <span class="text">Add Item</span>
                     <span class="icon">
