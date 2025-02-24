@@ -105,6 +105,7 @@ body {
 /* Main Content */
 .content {
   margin-left: 250px; /* Moves content to the right of sidebar */
+  margin-right: 100px;
   flex-grow: 1;
   padding: 50px;
   text-align: center;
@@ -317,6 +318,7 @@ table {
   margin: 20px 0;
   font-size: 18px;
   text-align: left;
+  min-width: 2110px;
 }
 
 table th,
