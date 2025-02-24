@@ -321,6 +321,24 @@ table {
   min-width: 2110px;
 }
 
+@media (max-width: 1200px) {
+  table {
+    min-width: 1500px;
+  }
+}
+
+@media (max-width: 768px) {
+  table {
+    min-width: 1000px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    min-width: 600px;
+  }
+}
+
 table th,
 table td {
   padding: 12px 15px;
