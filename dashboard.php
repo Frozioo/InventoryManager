@@ -131,7 +131,6 @@
                         <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Price (Desc)</a>
                     </div>
                 </div>
-
                 <button id="openCategoryModal" class="button">
                     <span class="text">Add Category</span>
                     <span class="icon">
@@ -139,6 +138,14 @@
                         <span class="buttonSpan">+</span>
                     </span>
                 </button>
+                <form action="deleteCategory.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
+                    <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>">
+                    <button type="submit" class="delbtn">
+                        <svg viewBox="0 0 448 512" class="svgIcon">
+                            <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
+                        </svg>
+                    </button>
+                </form>
 
                 <button id="openItemModal" class="button">
                     <span class="text">Add Item</span>
@@ -191,26 +198,42 @@
                 </div>
             </div>
             <!-- Table to display inventory items -->
-                                        
-            <table id="inventoryTable">
-                <tr>
-                    <th>Item</th>
-                    <th class="description">Description</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <!-- <th>Category</th> -->
-                </tr>
-
-                <?php foreach ($items as $item): ?>
+            <div class="table-container">                   
+                <table id="inventoryTable">
                     <tr>
-                        <td><?php echo $item['item_name']; ?></td>
-                        <td class="description"><?php echo $item['description']; ?></td>
-                        <td><?php echo $item['quantity']; ?></td>
-                        <td><?php echo $item['price']; ?></td>
-                        <!-- <td><?php echo $item['category_name']; ?></td> -->
+                        <th>Item</th>
+                        <th class="description">Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <!-- <th>Category</th> -->
                     </tr>
-                <?php endforeach; ?>
-            </table>
+
+                    <?php foreach ($items as $item): ?>
+                        <tr>
+                            <td><?php echo $item['item_name']; ?></td>
+                            <td class="description"><?php echo $item['description']; ?></td>
+                            <td><?php echo $item['quantity']; ?></td>
+                            <td><?php echo $item['price']; ?></td>
+                            <input type="hidden" value="<?php echo $item['item_id']; ?>">
+                            <!-- <td><?php echo $item['category_name']; ?></td> -->
+                        </tr>
+                    <?php endforeach; ?>
+                </table>
+                <div class="delete-buttons">
+                    <?php foreach ($items as $item): ?>
+                        <div class="delete-button-row">
+                            <form action="deleteItem.php" method="GET" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                <button class="btn3">
+                                <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon3">
+                                <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
+                                </svg>
+                                </button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
         </main>
 </div>
     
@@ -233,36 +256,88 @@
         }
 
         function sortTable(columnIndex, order) {
-            var table, rows, switching, i, x, y, shouldSwitch;
-            table = document.getElementById("inventoryTable");
-            switching = true;
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("inventoryTable");
+        switching = true;
 
-            while (switching) {
-                switching = false;
-                rows = table.rows;
+        while (switching) {
+            switching = false;
+            rows = table.rows;
 
-                for (i = 1; i < (rows.length - 1); i++) {
-                    shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[columnIndex];
-                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[columnIndex];
+                y = rows[i + 1].getElementsByTagName("TD")[columnIndex];
 
-                    if (order === "asc") {
-                        if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (order === "desc") {
-                        if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
-                            shouldSwitch = true;
-                            break;
-                        }
+                if (order === "asc") {
+                    if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (order === "desc") {
+                    if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+                        shouldSwitch = true;
+                        break;
                     }
                 }
+            }
 
-                if (shouldSwitch) {
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+
+        // Update delete buttons after sorting
+        updateDeleteButtons();
+    }
+
+        function updateDeleteButtons() {
+            var table = document.getElementById("inventoryTable");
+            var rows = table.getElementsByTagName("tr");
+            var deleteButtonsContainer = document.querySelector(".delete-buttons");
+            deleteButtonsContainer.innerHTML = "";
+
+            for (var i = 1; i < rows.length; i++) {
+                var itemId = rows[i].getElementsByTagName("input")[0].value;
+                var deleteButtonRow = document.createElement("div");
+                deleteButtonRow.className = "delete-button-row";
+
+                var form = document.createElement("form");
+                form.action = "deleteItem.php";
+                form.method = "GET";
+                form.onsubmit = function() {
+                    return confirm('Are you sure you want to delete this item?');
+                };
+
+                var input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "item_id";
+                input.value = itemId;
+
+                var button = document.createElement("button");
+                button.type = "submit";
+                button.className = "btn3";
+
+                var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                svg.setAttribute("viewBox", "0 0 15 17.5");
+                svg.setAttribute("height", "17.5");
+                svg.setAttribute("width", "15");
+                svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+                svg.classList.add("icon3");
+
+                var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("transform", "translate(-2.5 -1.25)");
+                path.setAttribute("d", "M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z");
+                path.setAttribute("id", "Fill");
+
+                svg.appendChild(path);
+                button.appendChild(svg);
+
+                form.appendChild(input);
+                form.appendChild(button);
+                deleteButtonRow.appendChild(form);
+                deleteButtonsContainer.appendChild(deleteButtonRow);
             }
         }
     </script>
@@ -275,14 +350,19 @@
             table = document.getElementById("inventoryTable");
             tr = table.getElementsByTagName("tr");
 
+            var deleteButtonsContainer = document.querySelector(".delete-buttons");
+            var deleteButtonRows = deleteButtonsContainer.getElementsByClassName("delete-button-row");
+
             for (i = 1; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
+                        deleteButtonRows[i - 1].style.display = "";
                     } else {
                         tr[i].style.display = "none";
+                        deleteButtonRows[i - 1].style.display = "none";
                     }
                 }
             }
