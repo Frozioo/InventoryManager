@@ -73,6 +73,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/stylesheet.css">
+    <link rel="icon" href="assets/inventory-system.png">
     <title>Dashboard - Inventory Manager</title>
 </head>
 <body>
@@ -102,7 +103,9 @@
         <!-- Main Content -->
         <main class="content">
             <h1>Dashboard</h1>
-            <p>View your inventory below.</p>
+            <!-- Display which category the user is currently in -->
+            <h2><?php echo $categories[array_search($selected_category_id, array_column($categories, 'category_id'))]['category_name']; ?></h2>
+            <p> Manage your inventory below </p>
 
             <!-- Contains all the buttons used above the dashboard -->
              <!-- Search field, allows the user to search for items within the table -->
@@ -141,6 +144,14 @@
                         <span class="buttonSpan">+</span>
                     </span>
                 </button>
+                <!-- Allows the user to add an item to the table -->
+                <button id="openItemModal" class="button">
+                    <span class="text">Add Item</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
+                        <span class="buttonSpan">+</span>
+                    </span>
+                </button>
                 <!-- Lets the user delete a category if they so desire -->
                 <form action="deleteCategory.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
                     <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>">
@@ -150,14 +161,6 @@
                         </svg>
                     </button>
                 </form>
-                <!-- Allows the user to add an item to the table -->
-                <button id="openItemModal" class="button">
-                    <span class="text">Add Item</span>
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
-                        <span class="buttonSpan">+</span>
-                    </span>
-                </button>
             </div>
 
             <!-- Form for category when a user clicks Add Category button -->
@@ -167,7 +170,7 @@
                     <form method="POST" action="dashboard.php">
                         <label for="category_name">Category Name:</label>
                         <input type="text" id="category_name" name="category_name" required>
-                        <button type="submit">Add Category</button>
+                        <button class="category-button" type="submit">Add Category</button>
                     </form>
                 </div>
             </div>
@@ -179,10 +182,10 @@
                     <span class="close">&times;</span>
                     <form method="POST" action="dashboard.php">
                         <label for="item_name">Item Name:</label>
-                        <input type="text" id="item_name" name="item_name" required><br><br>
+                        <input type="text" id="item_name" name="item_name" required maxlength="40"><br><br>
                         
                         <label for="description">Description:</label>
-                        <input id="description" name="description"></input><br><br>
+                        <input type="text" id="description" name="description" maxlength="78"></input><br><br>
                         
                         <label for="quantity">Quantity:</label>
                         <input type="number" id="quantity" name="quantity" required><br><br>
@@ -196,8 +199,8 @@
                                 <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
                             <?php endforeach; ?>
                         </select><br><br>
-                        
-                        <button type="submit">Add Item</button>
+                        <br>
+                        <button class="item-button" type="submit">Add Item</button>
                     </form>
                 </div>
             </div>

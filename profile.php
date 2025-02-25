@@ -56,6 +56,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/stylesheet.css">
     <title>Profile - Inventory Manager</title>
+    <link rel="icon" href="assets/inventory-system.png">
 </head>
 <body>
     <h1>User Profile</h1>
@@ -74,7 +75,8 @@
         <main class="content">
             <h1>Profile</h1>
             <p>Update your profile information below.</p>
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <br>
+            <form class="profile-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" value="<?php echo htmlspecialchars($row['email']); ?>" required>
 

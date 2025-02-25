@@ -15,6 +15,9 @@
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $empty = false;
             $message = "Invalid email format.";
+        } elseif ($password !== $password2) {
+            $empty = false;
+            $message = "Passwords do not match."; 
         } else {
             try {
                 // Check if the user already exists
@@ -53,10 +56,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup - Inventory Manager</title>
     <link rel="stylesheet" href="CSS/stylesheet.css">
+    <link rel="icon" href="assets/inventory-system.png">
 </head>
-<body class="login-body">
-
-<div class="container">
+<body>
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <h2>Inventory Manager</h2>
@@ -72,9 +74,9 @@
         <main class="content">
             <h1>Sign Up</h1>
             <p>Create your account to start managing your inventory.</p>
-
+            <br>
             <!-- Signup Form -->
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <form class="signup-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
 
@@ -91,6 +93,8 @@
                 <?php if (!empty($message)): ?>
                     <p class="error"><?php echo $message; ?></p>
                 <?php endif; ?>
+                <!-- Already have an account? -->
+                <p>Already have an account? <a href="login.php">Log in here</a>.</p>
             </form>
         </main>
     </div>

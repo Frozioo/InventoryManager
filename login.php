@@ -2,6 +2,7 @@
     // Needed for MariaDB to work with PHP
     require '/home/tmlarson/connections/connect.php';
     // Start the session
+    session_start();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
@@ -19,6 +20,9 @@
                 session_start();
                 $_SESSION['email'] = $row['email'];
                 header('Location: dashboard.php');
+                exit;
+            } else {
+                $message = "Invalid email or password.";
             }
         }
     }
@@ -34,10 +38,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Inventory Manager</title>
     <link rel="stylesheet" href="CSS/stylesheet.css">
+    <link rel="icon" href="assets/inventory-system.png">
 </head>
 <body>
-
-    <div class="container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <h2>Inventory Manager</h2>
@@ -53,9 +56,9 @@
         <main class="content">
             <h1>Log In</h1>
             <p>Access your inventory by logging in below.</p>
-
+            <br>
             <!-- Login Form -->
-            <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <form class="login-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required>
 
@@ -69,7 +72,6 @@
                 <?php endif; ?>
             </form>
         </main>
-    </div>
 
 </body>
 </html>

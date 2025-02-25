@@ -16,10 +16,9 @@ This will be the main page for inventory manager (subject to change). The user w
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Inventory Manager</title>
     <link rel="stylesheet" href="CSS/stylesheet.css">
+    <link rel="icon" href="assets/inventory-system.png">
 </head>
 <body>
-
-    <div class="container">
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
             <h2>Inventory Manager</h2>
@@ -35,7 +34,10 @@ This will be the main page for inventory manager (subject to change). The user w
         <main class="content">
             <h1>Welcome to Inventory Manager</h1>
             <p>Manage your inventory efficiently with our easy-to-use platform.</p>
-            <p>Use the navigation on the left to log in or sign up.</p>
+            <section class="cta">
+                <p>Join us and start managing your inventory!</p>
+                <a href="signup.php" class="btn">Sign Up Now</a>
+            </section>
         </main>
     </div>
 
