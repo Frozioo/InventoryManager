@@ -77,171 +77,169 @@
     <title>Dashboard - Inventory Manager</title>
 </head>
 <body>
+    <div class="container">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+            <h2>Inventory Manager</h2>
+                <ul>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">
+                            Dashboard 
+                            <img id="dropdownArrow" src="assets/drop-down-arrow.png" alt="Dropdown Arrow" class="dropdown-arrow">
+                        </a>
+                        <ul class="dropdown-content" id="categoryDropdown">
+                            <?php foreach ($categories as $category): ?>
+                                <li><a href="dashboard.php?category_id=<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </li>
+                    <li><a href="profile.php">Profile</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+                <h5>&copy; 2025 Trey Larson</h5>
+            </nav>
 
-<div class="container">
-        <!-- Sidebar Navigation -->
-        <nav class="sidebar">
-           <h2>Inventory Manager</h2>
-            <ul>
-                <li class="dropdown">
-                    <a href="javascript:void(0)" class="dropbtn" onclick="toggleDropdown()">
-                        Dashboard 
-                        <img id="dropdownArrow" src="assets/drop-down-arrow.png" alt="Dropdown Arrow" class="dropdown-arrow">
-                    </a>
-                    <ul class="dropdown-content" id="categoryDropdown">
-                        <?php foreach ($categories as $category): ?>
-                            <li><a href="dashboard.php?category_id=<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </li>
-                <li><a href="profile.php">Profile</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-            <h5>&copy; 2025 Trey Larson</h5>
-        </nav>
+            <main class="content">
+                <h1>Dashboard</h1>
+                <!-- Display which category the user is currently in -->
+                <h2><?php echo $categories[array_search($selected_category_id, array_column($categories, 'category_id'))]['category_name']; ?></h2>
+                <p> Manage your inventory below </p>
 
-        <main class="content">
-            <h1>Dashboard</h1>
-            <!-- Display which category the user is currently in -->
-            <h2><?php echo $categories[array_search($selected_category_id, array_column($categories, 'category_id'))]['category_name']; ?></h2>
-            <p> Manage your inventory below </p>
-
-            <!-- Contains all the buttons used above the dashboard -->
-             <!-- Search field, allows the user to search for items within the table -->
-            <div class="button-container">
-                <div class="group">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" class="icon2">
-                    <g>
-                      <path
-                        d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
-                      ></path>
-                    </g>
-                  </svg>
-                  <input id="searchInput" class="input" type="search" onkeyup="filterTable()" placeholder="Search" />
-                </div>
-                <!-- Sorting button -->
-                <div class="sorting-container">
-                    <button title="filter" class="filter" onclick="toggleSortDropdown()">
-                    <svg viewBox="0 0 512 512" height="1em">
+                <!-- Contains all the buttons used above the dashboard -->
+                <!-- Search field, allows the user to search for items within the table -->
+                <div class="button-container">
+                    <div class="group">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" class="icon2">
+                        <g>
                         <path
-                        d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z"
+                            d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z"
                         ></path>
+                        </g>
                     </svg>
+                    <input id="searchInput" class="input" type="search" onkeyup="filterTable()" placeholder="Search" />
+                    </div>
+                    <!-- Sorting button -->
+                    <div class="sorting-container">
+                        <button title="filter" class="filter" onclick="toggleSortDropdown()">
+                        <svg viewBox="0 0 512 512" height="1em">
+                            <path
+                            d="M0 416c0 17.7 14.3 32 32 32l54.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 448c17.7 0 32-14.3 32-32s-14.3-32-32-32l-246.7 0c-12.3-28.3-40.5-48-73.3-48s-61 19.7-73.3 48L32 384c-17.7 0-32 14.3-32 32zm128 0a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zM320 256a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm32-80c-32.8 0-61 19.7-73.3 48L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l246.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48l54.7 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-54.7 0c-12.3-28.3-40.5-48-73.3-48zM192 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zm73.3-64C253 35.7 224.8 16 192 16s-61 19.7-73.3 48L32 64C14.3 64 0 78.3 0 96s14.3 32 32 32l86.7 0c12.3 28.3 40.5 48 73.3 48s61-19.7 73.3-48L480 128c17.7 0 32-14.3 32-32s-14.3-32-32-32L265.3 64z"
+                            ></path>
+                        </svg>
+                        </button>
+                        <div id="sortDropdown" class="sort-dropdown-content">
+                            <a href="javascript:void(0)" onclick="sortTable(2, 'asc')">Quantity (Asc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(2, 'desc')">Quantity (Desc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(3, 'asc')">Price (Asc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Price (Desc)</a>
+                        </div>
+                    </div>
+                    <!-- Allows the user to add a category -->
+                    <button id="openCategoryModal" class="button">
+                        <span class="text">Add Category</span>
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
+                            <span class="buttonSpan">+</span>
+                        </span>
                     </button>
-                    <div id="sortDropdown" class="sort-dropdown-content">
-                        <a href="javascript:void(0)" onclick="sortTable(2, 'asc')">Quantity (Asc)</a>
-                        <a href="javascript:void(0)" onclick="sortTable(2, 'desc')">Quantity (Desc)</a>
-                        <a href="javascript:void(0)" onclick="sortTable(3, 'asc')">Price (Asc)</a>
-                        <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Price (Desc)</a>
+                    <!-- Allows the user to add an item to the table -->
+                    <button id="openItemModal" class="button">
+                        <span class="text">Add Item</span>
+                        <span class="icon">
+                            <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
+                            <span class="buttonSpan">+</span>
+                        </span>
+                    </button>
+                    <!-- Lets the user delete a category if they so desire -->
+                    <form action="deleteCategory.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
+                        <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>">
+                        <button type="submit" class="delbtn">
+                            <svg viewBox="0 0 448 512" class="svgIcon">
+                                <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Form for category when a user clicks Add Category button -->
+                <div id="categoryModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form method="POST" action="dashboard.php">
+                            <label for="category_name">Category Name:</label>
+                            <input type="text" id="category_name" name="category_name" required>
+                            <button class="category-button" type="submit">Add Category</button>
+                        </form>
                     </div>
                 </div>
-                <!-- Allows the user to add a category -->
-                <button id="openCategoryModal" class="button">
-                    <span class="text">Add Category</span>
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
-                        <span class="buttonSpan">+</span>
-                    </span>
-                </button>
-                <!-- Allows the user to add an item to the table -->
-                <button id="openItemModal" class="button">
-                    <span class="text">Add Item</span>
-                    <span class="icon">
-                        <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
-                        <span class="buttonSpan">+</span>
-                    </span>
-                </button>
-                <!-- Lets the user delete a category if they so desire -->
-                <form action="deleteCategory.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
-                    <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>">
-                    <button type="submit" class="delbtn">
-                        <svg viewBox="0 0 448 512" class="svgIcon">
-                            <path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
-                        </svg>
-                    </button>
-                </form>
-            </div>
 
-            <!-- Form for category when a user clicks Add Category button -->
-            <div id="categoryModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <form method="POST" action="dashboard.php">
-                        <label for="category_name">Category Name:</label>
-                        <input type="text" id="category_name" name="category_name" required>
-                        <button class="category-button" type="submit">Add Category</button>
-                    </form>
+
+                <!-- Form for add item when a user clicks Add Item button -->
+                <div id="itemModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <form method="POST" action="dashboard.php">
+                            <label for="item_name">Item Name:</label>
+                            <input type="text" id="item_name" name="item_name" required maxlength="40"><br><br>
+                            
+                            <label for="description">Description:</label>
+                            <input type="text" id="description" name="description" maxlength="78"></input><br><br>
+                            
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" id="quantity" name="quantity" required><br><br>
+                            
+                            <label for="price">Price:</label>
+                            <input type="number" step="0.01" id="price" name="price" required><br><br>
+                            
+                            <label for="category_id">Category:</label>
+                            <select id="category_id" name="category_id" required>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                <?php endforeach; ?>
+                            </select><br><br>
+                            <br>
+                            <button class="item-button" type="submit">Add Item</button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-
-
-            <!-- Form for add item when a user clicks Add Item button -->
-            <div id="itemModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <form method="POST" action="dashboard.php">
-                        <label for="item_name">Item Name:</label>
-                        <input type="text" id="item_name" name="item_name" required maxlength="40"><br><br>
-                        
-                        <label for="description">Description:</label>
-                        <input type="text" id="description" name="description" maxlength="78"></input><br><br>
-                        
-                        <label for="quantity">Quantity:</label>
-                        <input type="number" id="quantity" name="quantity" required><br><br>
-                        
-                        <label for="price">Price:</label>
-                        <input type="number" step="0.01" id="price" name="price" required><br><br>
-                        
-                        <label for="category_id">Category:</label>
-                        <select id="category_id" name="category_id" required>
-                            <?php foreach ($categories as $category): ?>
-                                <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
-                            <?php endforeach; ?>
-                        </select><br><br>
-                        <br>
-                        <button class="item-button" type="submit">Add Item</button>
-                    </form>
-                </div>
-            </div>
-            <!-- Table to display inventory items -->
-            <div class="table-container">                   
-                <table id="inventoryTable">
-                    <tr>
-                        <th>Item</th>
-                        <th class="description">Description</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <!-- <th>Category</th> -->
-                    </tr>
-
-                    <?php foreach ($items as $item): ?>
+                <div class="table-container">                   
+                    <table id="inventoryTable">
                         <tr>
-                            <td><?php echo $item['item_name']; ?></td>
-                            <td class="description"><?php echo $item['description']; ?></td>
-                            <td><?php echo $item['quantity']; ?></td>
-                            <td><?php echo $item['price']; ?></td>
-                            <input type="hidden" value="<?php echo $item['item_id']; ?>">
-                            <!-- <td><?php echo $item['category_name']; ?></td> -->
+                            <th>Item</th>
+                            <th class="description">Description</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <!-- <th>Category</th> -->
                         </tr>
-                    <?php endforeach; ?>
-                </table>
-                <div class="delete-buttons">
-                    <?php foreach ($items as $item): ?>
-                        <div class="delete-button-row">
-                            <form action="deleteItem.php" method="GET" onsubmit="return confirm('Are you sure you want to delete this item?')">
-                                <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
-                                <button class="btn3">
-                                <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon3">
-                                <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
-                                </svg>
-                                </button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
+
+                        <?php foreach ($items as $item): ?>
+                            <tr>
+                                <td><?php echo $item['item_name']; ?></td>
+                                <td class="description"><?php echo $item['description']; ?></td>
+                                <td><?php echo $item['quantity']; ?></td>
+                                <td><?php echo $item['price']; ?></td>
+                                <input type="hidden" value="<?php echo $item['item_id']; ?>">
+                                <!-- <td><?php echo $item['category_name']; ?></td> -->
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <div class="delete-buttons">
+                        <?php foreach ($items as $item): ?>
+                            <div class="delete-button-row">
+                                <form action="deleteItem.php" method="GET" onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                    <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                    <button class="btn3">
+                                    <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon3">
+                                    <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
+                                    </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
-            </div>
-        </main>
-</div>
+            </main>
+    </div>
     
 
     <script>
@@ -260,7 +258,7 @@
                 }
             }
         }
-
+        // This allows the user to sort the table
         function sortTable(columnIndex, order) {
         var table, rows, switching, i, x, y, shouldSwitch;
         table = document.getElementById("inventoryTable");
@@ -296,7 +294,7 @@
 
         updateDeleteButtons();
     }
-
+        // This allows the user to delete the items, I was having issues with the delete button not updating so this fixed it.
         function updateDeleteButtons() {
             var table = document.getElementById("inventoryTable");
             var rows = table.getElementsByTagName("tr");
@@ -348,6 +346,7 @@
     </script>
 
     <script>
+        // Allows the user to be able to search for items in their inventory table
         function filterTable() {
             var input, filter, table, tr, td, i, txtValue;
             input = document.getElementById("searchInput");
