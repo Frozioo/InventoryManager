@@ -15,17 +15,16 @@ body {
   background: #f4f4f4;
 }
 
-/* Sidebar Navigation */
 .sidebar {
   width: 250px;
-  height: 100vh; /* Full height of the viewport */
+  height: 100vh;
   background: #2c3e50;
   color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Pushes content to fill space */
-  position: fixed; /* Sticks to the left */
+  justify-content: space-between;
+  position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
@@ -39,7 +38,7 @@ body {
 .sidebar ul {
   list-style: none;
   padding: 0;
-  flex-grow: 1; /* Allows menu items to fill space */
+  flex-grow: 1;
 }
 
 .sidebar ul li {
@@ -47,9 +46,8 @@ body {
   position: relative;
 }
 
-/* Push Copyright to Bottom */
 .sidebar h5 {
-  margin-top: auto; /* Pushes it to the bottom */
+  margin-top: auto;
   text-align: center;
   font-size: 14px;
   color: #ccc;
@@ -71,11 +69,10 @@ body {
   background: #34495e;
 }
 
-/* Dropdown Menu */
 .sidebar ul .dropdown-content {
   display: none;
-  position: relative; /* Change from absolute to relative */
-  width: 100%; /* Ensure it takes full width */
+  position: relative;
+  width: 100%;
   background-color: #2c3e50;
   padding-left: 10px;
 }
@@ -102,9 +99,8 @@ body {
   transition: transform 0.3s ease-in-out;
 }
 
-/* Main Content */
 .content {
-  margin-left: 250px; /* Moves content to the right of sidebar */
+  margin-left: 250px;
   margin-right: 100px;
   flex-grow: 1;
   padding: 50px;
@@ -122,7 +118,6 @@ body {
   color: #666;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;
@@ -290,7 +285,6 @@ form .category-button:hover {
   font-size: 30px;
 }
 
-/* From Uiverse.io by LightAndy1 */
 .group {
   display: flex;
   line-height: 28px;
@@ -333,7 +327,6 @@ input:hover {
   height: 1rem;
 }
 
-/* The Modal (background) */
 .modal {
   display: none;
   position: fixed;
@@ -348,7 +341,6 @@ input:hover {
   padding-top: 60px;
 }
 
-/* Modal Content */
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
@@ -361,7 +353,6 @@ input:hover {
   animation: fadeIn 0.3s;
 }
 
-/* The Close Button */
 .close {
   color: #aaa;
   float: right;
@@ -376,7 +367,6 @@ input:hover {
   cursor: pointer;
 }
 
-/* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -440,10 +430,11 @@ table tr td {
   border-bottom: 1px solid #ddd;
 }
 
+/* For adjusting the text in description */
 table th.description,
 table td.description {
-  max-width: 300px; /* Adjust the width as needed */
-  word-wrap: break-word; /* Ensures long words break to the next line */
+  max-width: 300px;
+  word-wrap: break-word;
 }
 
 .table-container {
@@ -505,7 +496,6 @@ table td.description {
   display: block;
 }
 
-/* From Uiverse.io by vinodjangid07 */
 .filter {
   width: 50px;
   height: 50px;
@@ -581,7 +571,6 @@ table td.description {
 
 /* Deletion button for categories */
 
-/* From Uiverse.io by vinodjangid07 */
 .delbtn {
   width: 50px;
   height: 50px;

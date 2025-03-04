@@ -1,13 +1,11 @@
 <?php
     // Needed for MariaDB to work with PHP
     require '/home/tmlarson/connections/connect.php';
-    // Start the session
     session_start();
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];
         $empty = true;
-        // Check if the email and password are empty
         if (empty($email) || empty($password)) {
             $empty = false;
             $message = "Email and password cannot be empty.";
@@ -52,7 +50,6 @@
             <h5>Copyright © 2025 Trey Larson</h5>
         </nav>
 
-        <!-- Main Content -->
         <main class="content">
             <h1>Log In</h1>
             <p>Access your inventory by logging in below.</p>

@@ -20,7 +20,7 @@
             $message = "Passwords do not match."; 
         } else {
             try {
-                // Check if the user already exists
+                // A check if the user already exists
                 $stmt = $conn->prepare("SELECT email FROM Users WHERE email = :email");
                 $stmt->bindParam(':email', $email);
                 $stmt->execute();
@@ -30,7 +30,6 @@
                     $empty = false;
                     $message = "User already exists.";
                 } else {
-                    // Insert new user
                     $stmt = $conn->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
                     $stmt->bindParam(':email', $email);
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -70,7 +69,6 @@
             <h5>Copyright © 2025 Trey Larson</h5>
         </nav>
 
-        <!-- Main Content -->
         <main class="content">
             <h1>Sign Up</h1>
             <p>Create your account to start managing your inventory.</p>
@@ -93,7 +91,6 @@
                 <?php if (!empty($message)): ?>
                     <p class="error"><?php echo $message; ?></p>
                 <?php endif; ?>
-                <!-- Already have an account? -->
                 <p>Already have an account? <a href="login.php">Log in here</a>.</p>
             </form>
         </main>

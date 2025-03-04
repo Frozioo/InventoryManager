@@ -1,12 +1,5 @@
-<!-- 
-This will be the main page for inventory manager (subject to change). The user will be able to use the nav bar to navigate to the login and signup pages.
- There will also be additional information about the site and its purpose. 
--->
-
 <?php
     require '/home/tmlarson/connections/connect.php';
-
-
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +23,6 @@ This will be the main page for inventory manager (subject to change). The user w
             <h5>Copyright © 2025 Trey Larson</h5>
         </nav>
 
-        <!-- Main Content -->
         <main class="content">
             <h1>Welcome to Inventory Manager</h1>
             <p>Manage your inventory efficiently with our easy-to-use platform.</p>

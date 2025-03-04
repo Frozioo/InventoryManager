@@ -9,7 +9,6 @@
         header('Location: index.php');
         exit;
     }
-    // Fetch user information
     $stmt = $conn->prepare("SELECT email FROM Users WHERE email = :email");
     $stmt->bindParam(':email', $_SESSION['email']);
     $stmt->execute();
@@ -27,7 +26,6 @@
             $message = "Passwords do not match.";
         } else {
             try {
-                // Update user information
                 $stmt = $conn->prepare("UPDATE Users SET email = :email, password = :password WHERE email = :old_email");
                 $stmt->bindParam(':email', $email);
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -35,7 +33,6 @@
                 $stmt->bindParam(':old_email', $_SESSION['email']);
                 $stmt->execute();
 
-                // Update session variable
                 $_SESSION['email'] = $email;
 
                 header('Location: profile.php');
@@ -71,7 +68,7 @@
             </ul>
             <h5>&copy; 2025 Trey Larson</h5>
         </nav>
-        <!-- Main Content -->
+
         <main class="content">
             <h1>Profile</h1>
             <p>Update your profile information below.</p>

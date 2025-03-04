@@ -100,7 +100,6 @@
             <h5>&copy; 2025 Trey Larson</h5>
         </nav>
 
-        <!-- Main Content -->
         <main class="content">
             <h1>Dashboard</h1>
             <!-- Display which category the user is currently in -->
@@ -295,7 +294,6 @@
             }
         }
 
-        // Update delete buttons after sorting
         updateDeleteButtons();
     }
 
@@ -389,59 +387,42 @@
                 arrow.style.transform = "rotate(180deg)";
             }
         }
-        // Create a function that allows the user to click on a button and it opens
-        // a window that allows the user to create a category and add it to the database
-        // Create a function that allows the user to click on a button and it opens
-        // a window that allows the user to create an item and add it to the database
 
-        // Get the modal
         var modal = document.getElementById("categoryModal");
-
-        // Get the button that opens the modal
         var btn = document.getElementById("openCategoryModal");
-
-        // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
 
-        // When the user clicks the button, open the modal 
         btn.onclick = function() {
             modal.style.display = "block";
         }
 
-        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             modal.style.display = "none";
         }
 
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
 
-        // Get the modal
         var modal2 = document.getElementById("itemModal");
-        // Get the button that opens the modal
         var btn2 = document.getElementById("openItemModal");
-        // Get the <span> element that closes the modal
         var span2 = document.getElementsByClassName("close")[1];
-        // When the user clicks the button, open the modal
+
         btn2.onclick = function() {
             modal2.style.display = "block";
         }
-        // When the user clicks on <span> (x), close the modal
+
         span2.onclick = function() {
             modal2.style.display = "none";
         }
-        // When the user clicks anywhere outside of the modal, close it
+
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal2.style.display = "none";
             }
         }
-
-
     </script>
 
 </body>
