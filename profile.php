@@ -66,7 +66,7 @@
                 <li><a href="profile.php" class="active">Profile</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
-            <h5>&copy; 2025 Trey Larson</h5>
+            <h5>Copyright © 2025 Trey Larson</h5>
         </nav>
 
         <main class="content">
