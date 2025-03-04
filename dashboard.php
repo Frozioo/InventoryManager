@@ -14,7 +14,6 @@
     $user = $stmtUser->fetch(PDO::FETCH_ASSOC);
     $user_id = $user['user_id'];
 
-    // Handle category form submission
     if (isset($_POST['category_name'])) {
         $category_name = $_POST['category_name'];
 
@@ -23,12 +22,10 @@
         $stmtInsertCategory->bindParam(':category_name', $category_name);
         $stmtInsertCategory->execute();
 
-        // Redirect to avoid form resubmission
         header('Location: dashboard.php');
         exit;
     }
 
-    // Handle item form submission
     if (isset($_POST['item_name'])) {
         $item_name = $_POST['item_name'];
         $description = $_POST['description'];
@@ -50,13 +47,11 @@
         exit;
     }
 
-    // Fetch categories
     $stmtCategories = $conn->prepare('SELECT * FROM InventoryCategories WHERE user_id = :user_id');
     $stmtCategories->bindParam(':user_id', $user_id);
     $stmtCategories->execute();
     $categories = $stmtCategories->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch selected category
     $selected_category_id = isset($_GET['category_id']) ? $_GET['category_id'] : $categories[0]['category_id'];
 
     // Fetch items for the selected category
