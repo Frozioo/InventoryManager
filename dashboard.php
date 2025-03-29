@@ -189,7 +189,9 @@
                             <label for="category_id">Category:</label>
                             <select id="category_id" name="category_id" required>
                                 <?php foreach ($categories as $category): ?>
-                                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                    <option value="<?php echo $category['category_id']; ?>" <?php echo $category['category_id'] == $selected_category_id ? 'selected' : ''; ?>>
+                                        <?php echo $category['category_name']; ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select><br><br>
                             <br>
@@ -221,6 +223,13 @@
                     <div class="delete-buttons">
                         <?php foreach ($items as $item): ?>
                             <div class="delete-button-row">
+                                <!-- Edit Button -->
+                                <button class="edit-btn" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($item)); ?>)">
+                                <svg class="edit-svgIcon" viewBox="0 0 512 512">
+                                    <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path>
+                                </svg>
+                                </button>  
+                                <!-- Delete Button -->
                                 <form action="deleteItem.php" method="GET" onsubmit="return confirm('Are you sure you want to delete this item?')">
                                     <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
                                     <button class="btn3">
@@ -231,6 +240,33 @@
                                 </form>
                             </div>
                         <?php endforeach; ?>
+                    </div>
+                </div>
+                <div id="editItemModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeEditModal()">&times;</span>
+                        <form method="POST" action="editItem.php">
+                            <input type="hidden" id="edit_item_id" name="item_id">
+                            <label for="edit_item_name">Item Name:</label>
+                            <input type="text" id="edit_item_name" name="item_name" required maxlength="40"><br><br>
+                            
+                            <label for="edit_description">Description:</label>
+                            <input type="text" id="edit_description" name="description" maxlength="78"><br><br>
+                            
+                            <label for="edit_quantity">Quantity:</label>
+                            <input type="number" id="edit_quantity" name="quantity" required><br><br>
+                            
+                            <label for="edit_price">Price:</label>
+                            <input type="number" step="0.01" id="edit_price" name="price" required><br><br>
+                            
+                            <label for="edit_category_id">Category:</label>
+                            <select id="edit_category_id" name="category_id" required>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
+                                <?php endforeach; ?>
+                            </select><br><br>
+                            <button class="item-button" type="submit">Save Changes</button>
+                        </form>
                     </div>
                 </div>
             </main>
@@ -419,5 +455,28 @@
         }
     </script>
 
+    <script>
+        function openEditModal(item) {
+            document.getElementById("edit_item_id").value = item.item_id;
+            document.getElementById("edit_item_name").value = item.item_name;
+            document.getElementById("edit_description").value = item.description;
+            document.getElementById("edit_quantity").value = item.quantity;
+            document.getElementById("edit_price").value = item.price;
+            document.getElementById("edit_category_id").value = item.category_id;
+
+            document.getElementById("editItemModal").style.display = "block";
+        }
+
+        function closeEditModal() {
+            document.getElementById("editItemModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById("editItemModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

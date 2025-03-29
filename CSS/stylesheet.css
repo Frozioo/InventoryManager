@@ -378,7 +378,7 @@ table {
 
 @media (max-width: 2600px) {
   table {
-    min-width: 2050px;
+    min-width: 2025px;
   }
 }
 
@@ -453,6 +453,9 @@ table td.description {
 
 .delete-button-row {
   margin-top: 24px;
+  display: flex; /* Align items horizontally */
+  gap: 10px; /* Add spacing between the buttons */
+  align-items: center; /* Vertically align buttons */
 }
 
 .sort-button {
@@ -564,6 +567,75 @@ table td.description {
 }
 
 .btn3:hover::after {
+  visibility: visible;
+  opacity: 1;
+  top: -160%;
+}
+
+/* Edit button for items */
+/* .edit-btn {
+  background-color: transparent;
+  position: relative;
+  border: none;
+  cursor: pointer;
+} */
+
+.edit-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  text-decoration: none !important;
+}
+
+.edit-svgIcon {
+  width: 17px;
+  transition-duration: 0.3s;
+}
+
+.edit-svgIcon path {
+  fill: white;
+}
+
+.edit-btn::after {
+  content: "edit";
+  position: absolute;
+  top: -130%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  height: fit-content;
+  background-color: rgb(175, 164, 4);
+  padding: 4px 8px;
+  border-radius: 5px;
+  transition: 0.2s linear;
+  transition-delay: 0.2s;
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.edit-btn:hover > .icon {
+  transform: scale(1.5);
+}
+
+.edit-btn:hover > .icon path {
+  fill: rgb(175, 164, 4);
+}
+
+.edit-btn:hover::after {
   visibility: visible;
   opacity: 1;
   top: -160%;
@@ -782,3 +854,136 @@ table td.description {
   text-align: center;
 }
 /* End of Signup Page */
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.hero-image {
+  width: 50%;
+  border-radius: 10px;
+}
+
+.hero-text {
+  width: 45%;
+  text-align: center;
+}
+
+.hero-text h1 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 18px;
+  color: #666;
+}
+
+/* Features Section */
+.features {
+  text-align: center;
+}
+
+.features h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.features-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.feature {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature img {
+  width: 80px;
+  margin-bottom: 15px;
+}
+
+.feature h3 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Testimonials Section */
+.testimonials {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.testimonials h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.testimonials-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.testimonial {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.testimonial h4 {
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Call-to-Action Section */
+.cta {
+  margin-top: 50px;
+  text-align: center;
+  padding: 30px;
+  background-color: #fff;
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cta h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.cta p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
