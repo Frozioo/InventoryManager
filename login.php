@@ -28,7 +28,7 @@
                 if ($row && $password == $row['admin_password']) {
                     session_start();
                     $_SESSION['email'] = $row['admin_email'];
-                    header("Location: dashboard.php");
+                    header("Location: adminPortal.php");
                 } else {
                     $message = "Invalid email or password.";
                 }

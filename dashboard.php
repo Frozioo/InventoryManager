@@ -138,13 +138,15 @@
                         </span>
                     </button>
                     <!-- Allows the user to add an item to the table -->
-                    <button id="openItemModal" class="button">
-                        <span class="text">Add Item</span>
-                        <span class="icon">
-                            <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
-                            <span class="buttonSpan">+</span>
-                        </span>
-                    </button>
+                    <?php if (!empty($categories)): ?>
+                        <button id="openItemModal" class="button">
+                            <span class="text">Add Item</span>
+                            <span class="icon">
+                                <svg viewBox="0 0 24 24" height="24" width="24" xmlns="http://www.w3.org/2000/svg"></svg>
+                                <span class="buttonSpan">+</span>
+                            </span>
+                        </button>
+                    <?php endif; ?>
                     <!-- Lets the user delete a category if they so desire -->
                     <form action="deleteCategory.php" method="POST" onsubmit="return confirm('Are you sure you want to delete this category?')">
                         <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>">
