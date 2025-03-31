@@ -20,7 +20,18 @@
                 header('Location: dashboard.php');
                 exit;
             } else {
-                $message = "Invalid email or password.";
+                $stmt = $conn->prepare("select * from Admin where admin_email = :email");
+                $stmt->bindParam(':email', $email);
+                $stmt->execute();
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                // Admin login
+                if ($row && $password == $row['admin_password']) {
+                    session_start();
+                    $_SESSION['email'] = $row['admin_email'];
+                    header("Location: dashboard.php");
+                } else {
+                    $message = "Invalid email or password.";
+                }
             }
         }
     }
