@@ -234,10 +234,11 @@
                                 <!-- Delete Button -->
                                 <form action="deleteItem.php" method="GET" onsubmit="return confirm('Are you sure you want to delete this item?')">
                                     <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                    <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>"> <!-- Pass category_id -->
                                     <button class="btn3">
-                                    <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon3">
-                                    <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
-                                    </svg>
+                                        <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon3">
+                                            <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
+                                        </svg>
                                     </button>
                                 </form>
                             </div>
@@ -249,6 +250,7 @@
                         <span class="close" onclick="closeEditModal()">&times;</span>
                         <form method="POST" action="editItem.php">
                             <input type="hidden" id="edit_item_id" name="item_id">
+                            <input type="hidden" id="edit_category_id_hidden" name="category_id"> <!-- Hidden input for category_id -->
                             <label for="edit_item_name">Item Name:</label>
                             <input type="text" id="edit_item_name" name="item_name" required maxlength="40"><br><br>
                             
@@ -499,6 +501,7 @@
             document.getElementById("edit_quantity").value = item.quantity;
             document.getElementById("edit_price").value = item.price;
             document.getElementById("edit_category_id").value = item.category_id;
+            document.getElementById("edit_category_id_hidden").value = item.category_id; // Set hidden category_id
 
             document.getElementById("editItemModal").style.display = "block";
         }

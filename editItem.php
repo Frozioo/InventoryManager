@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bindParam(':item_id', $item_id);
     $stmt->execute();
 
-    header('Location: dashboard.php');
+    // Redirect back to the dashboard with the correct category_id
+    header('Location: dashboard.php?category_id=' . $category_id);
     exit;
 }
 ?>

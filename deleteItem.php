@@ -8,8 +8,6 @@
     $qr = $conn->prepare($query);
     $qr->execute([$itemID]);
 
-    header("Location: dashboard.php");
+    header('Location: dashboard.php?category_id=' . $_GET['category_id']);
     exit;
-
-
 ?>
