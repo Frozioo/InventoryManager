@@ -20,7 +20,7 @@
     // Add new user
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
         $stmtInsert = $conn->prepare("INSERT INTO Users (email, password) VALUES (:email, :password)");
         $stmtInsert->bindParam(':email', $email);
