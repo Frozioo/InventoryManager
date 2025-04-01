@@ -1053,11 +1053,6 @@ table td.description {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.top-navbar h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
 /* Low Stock Dropdown */
 .low-stock-container {
   position: relative;
