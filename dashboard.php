@@ -67,7 +67,7 @@
     $stmtThreshold->bindParam(':user_id', $user_id);
     $stmtThreshold->execute();
     $userSettings = $stmtThreshold->fetch(PDO::FETCH_ASSOC);
-    $low_stock_threshold = $userSettings['low_stock_threshold'] ?? 5; // Default to 5 if not set
+    $low_stock_threshold = $userSettings['low_stock_threshold'] ?? 5;
 
     // Get items with low stock for the selected category
     if (isset($selected_category_id)) {
