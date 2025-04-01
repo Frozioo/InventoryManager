@@ -21,7 +21,7 @@ body {
   padding: 0;
   width: 100%;
   background: #f4f4f4;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  overflow-x: hidden;
 }
 
 .sidebar {
@@ -152,11 +152,11 @@ body {
 /* Index Page */
 
 .features,
-.cta {
+.signup-box {
   margin-top: 20px;
 }
 
-.cta .btn {
+.signup-box .btn {
   display: inline-block;
   padding: 10px 20px;
   background-color: #2c3e50;
@@ -166,7 +166,7 @@ body {
   margin-top: 10px;
 }
 
-.cta .btn:hover {
+.signup-box .btn:hover {
   background-color: #34495e;
 }
 
@@ -462,9 +462,9 @@ table td.description {
 
 .delete-button-row {
   margin-top: 24px;
-  display: flex; /* Align items horizontally */
-  gap: 10px; /* Add spacing between the buttons */
-  align-items: center; /* Vertically align buttons */
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .sort-button {
@@ -543,7 +543,6 @@ table td.description {
 }
 
 .btn3::after {
-  content: "delete";
   position: absolute;
   top: -130%;
   left: 50%;
@@ -567,14 +566,6 @@ table td.description {
   transition: 0.2s linear;
 }
 
-.btn3:hover > .icon {
-  transform: scale(1.5);
-}
-
-.btn3:hover > .icon path {
-  fill: rgb(168, 7, 7);
-}
-
 .btn3:hover::after {
   visibility: visible;
   opacity: 1;
@@ -592,10 +583,10 @@ table td.description {
 /* Actions Column Buttons */
 .edit-btn,
 .btn3 {
-  display: inline-flex; /* Ensure buttons are inline */
-  align-items: center; /* Vertically center the content */
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  margin-right: 10px; /* Add spacing between buttons */
+  margin-right: 10px;
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -611,37 +602,28 @@ table td.description {
   transition: fill 0.3s ease;
 }
 
-.edit-btn:hover svg,
-.btn3:hover svg {
-  fill: #007bff; /* Change color on hover */
-}
-
-/* Hide the Actions column header */
 #inventoryTable th.actions {
-  visibility: hidden; /* Make the header invisible */
-  height: 0; /* Remove the height of the header */
-  padding: 0; /* Remove padding to avoid extra space */
-  border: none; /* Remove the border for a seamless look */
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  border: none;
 }
 
-/* Make the background of the Actions column transparent */
 #inventoryTable td.actions {
-  background-color: #f4f4f4; /* Make the background invisible */
-  border: none; /* Remove the border if needed */
-  padding: 0; /* Adjust padding to ensure proper alignment */
+  background-color: #f4f4f4;
+  border: none;
+  padding: 0;
 }
 
-/* Initially hide the buttons */
 #inventoryTable td.actions .edit-btn,
 #inventoryTable td.actions .btn3 {
-  opacity: 0; /* Make buttons invisible */
-  transition: opacity 0.3s ease; /* Smooth transition for visibility */
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-/* Show the buttons when hovering over the row */
 #inventoryTable tr:hover td.actions .edit-btn,
 #inventoryTable tr:hover td.actions .btn3 {
-  opacity: 1; /* Make buttons visible */
+  opacity: 1;
 }
 
 .edit-btn {
@@ -920,8 +902,8 @@ table td.description {
 }
 /* End of Signup Page */
 
-/* Hero Section */
-.hero {
+/* Welcome Section */
+.welcome {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -931,23 +913,23 @@ table td.description {
   margin-bottom: 30px;
 }
 
-.hero-image {
+.welcome-image {
   width: 50%;
   border-radius: 10px;
 }
 
-.hero-text {
+.welcome-text {
   width: 45%;
   text-align: center;
 }
 
-.hero-text h1 {
+.welcome-text h1 {
   font-size: 36px;
   color: #333;
   margin-bottom: 20px;
 }
 
-.hero-text p {
+.welcome-text p {
   font-size: 18px;
   color: #666;
 }
@@ -1000,52 +982,8 @@ table td.description {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Testimonials Section */
-.testimonials {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.testimonials h2 {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.testimonials-grid {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.testimonial {
-  flex: 1;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for scaling and shadow */
-}
-
-.testimonial p {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.testimonial h4 {
-  font-size: 18px;
-  color: #333;
-  font-weight: bold;
-}
-
-.testimonial:hover {
-  transform: scale(1.05); /* Slightly enlarge the testimonial on hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a more prominent shadow */
-}
-
-/* Call-to-Action Section */
-.cta {
+/* Signup Box Section */
+.signup-box {
   margin-top: 50px;
   text-align: center;
   padding: 30px;
@@ -1053,14 +991,20 @@ table td.description {
   color: #333;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.cta h2 {
+.signup-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.signup-box h2 {
   font-size: 28px;
   margin-bottom: 20px;
 }
 
-.cta p {
+.signup-box p {
   font-size: 18px;
   margin-bottom: 20px;
 }
@@ -1120,7 +1064,6 @@ table td.description {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Low Stock Dropdown */
 .low-stock-container {
   position: relative;
   display: inline-block;
@@ -1131,6 +1074,8 @@ table td.description {
   position: absolute;
   background-color: white;
   min-width: 250px;
+  max-height: 300px;
+  overflow-y: auto;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 5px;
@@ -1227,5 +1172,17 @@ table td.description {
 
 .low-stock-btn:active {
   transform: scale(0.8);
+}
+
+.low-stock-link {
+  text-decoration: none;
+  color: #1c4877;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.low-stock-link:hover {
+  color: #112f50;
+  text-decoration: underline;
 }
 /* End of Top Navbar */

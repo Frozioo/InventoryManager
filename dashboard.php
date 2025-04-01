@@ -54,7 +54,7 @@
 
     $selected_category_id = isset($_GET['category_id']) ? $_GET['category_id'] : $categories[0]['category_id'];
 
-    // Fetch items for the selected category
+    // Get items for the selected category
     $stmtItems = $conn->prepare('SELECT Inventory.*, InventoryCategories.category_name FROM Inventory JOIN InventoryCategories
      ON Inventory.category_id = InventoryCategories.category_id WHERE Inventory.user_id = :user_id AND Inventory.category_id = :category_id');
     $stmtItems->bindParam(':user_id', $user_id);
@@ -62,19 +62,24 @@
     $stmtItems->execute();
     $items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch the user's low stock threshold
+    // Get the user's low stock threshold
     $stmtThreshold = $conn->prepare("SELECT low_stock_threshold FROM UserSettings WHERE user_id = :user_id");
     $stmtThreshold->bindParam(':user_id', $user_id);
     $stmtThreshold->execute();
     $userSettings = $stmtThreshold->fetch(PDO::FETCH_ASSOC);
     $low_stock_threshold = $userSettings['low_stock_threshold'] ?? 5; // Default to 5 if not set
 
-    // Fetch items with low stock
-    $stmtLowStock = $conn->prepare("SELECT item_name, quantity FROM Inventory WHERE user_id = :user_id AND quantity < :threshold");
-    $stmtLowStock->bindParam(':user_id', $user_id);
-    $stmtLowStock->bindParam(':threshold', $low_stock_threshold);
-    $stmtLowStock->execute();
-    $low_stock_items = $stmtLowStock->fetchAll(PDO::FETCH_ASSOC);
+    // Get items with low stock for the selected category
+    if (isset($selected_category_id)) {
+        $stmtLowStock = $conn->prepare("SELECT item_name, quantity FROM Inventory WHERE user_id = :user_id AND category_id = :category_id AND quantity < :threshold");
+        $stmtLowStock->bindParam(':user_id', $user_id);
+        $stmtLowStock->bindParam(':category_id', $selected_category_id);
+        $stmtLowStock->bindParam(':threshold', $low_stock_threshold);
+        $stmtLowStock->execute();
+        $low_stock_items = $stmtLowStock->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+        $low_stock_items = [];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -261,6 +266,7 @@
                                     <!-- Delete Button -->
                                     <form action="deleteItem.php" method="GET" onsubmit="return confirm('Are you sure you want to delete this item?')" style="display: inline;">
                                         <input type="hidden" name="item_id" value="<?php echo $item['item_id']; ?>">
+                                        <input type="hidden" name="category_id" value="<?php echo $selected_category_id; ?>"> <!-- Pass the current category_id -->
                                         <button class="btn3">
                                             <svg viewBox="0 0 15 17.5" height="17.5" width="15" xmlns="http://www.w3.org/2000/svg" class="icon3">
                                                 <path transform="translate(-2.5 -1.25)" d="M15,18.75H5A1.251,1.251,0,0,1,3.75,17.5V5H2.5V3.75h15V5H16.25V17.5A1.251,1.251,0,0,1,15,18.75ZM5,5V17.5H15V5Zm7.5,10H11.25V7.5H12.5V15ZM8.75,15H7.5V7.5H8.75V15ZM12.5,2.5h-5V1.25h5V2.5Z" id="Fill"></path>
@@ -470,19 +476,14 @@
             table = document.getElementById("inventoryTable");
             tr = table.getElementsByTagName("tr");
 
-            var deleteButtonsContainer = document.querySelector(".delete-buttons");
-            var deleteButtonRows = deleteButtonsContainer.getElementsByClassName("delete-button-row");
-
             for (i = 1; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
-                        deleteButtonRows[i - 1].style.display = "";
                     } else {
                         tr[i].style.display = "none";
-                        deleteButtonRows[i - 1].style.display = "none";
                     }
                 }
             }

@@ -127,7 +127,6 @@
             document.getElementById("deleteUserModal").style.display = "none";
         }
 
-        // Close modals when clicking outside
         window.onclick = function(event) {
             var addModal = document.getElementById("addUserModal");
             var deleteModal = document.getElementById("deleteUserModal");

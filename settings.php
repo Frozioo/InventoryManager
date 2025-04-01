@@ -7,14 +7,12 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-// Fetch the user's current low stock threshold
 $stmtThreshold = $conn->prepare("SELECT low_stock_threshold FROM UserSettings WHERE user_id = (SELECT user_id FROM Users WHERE email = :email)");
 $stmtThreshold->bindParam(':email', $_SESSION['email']);
 $stmtThreshold->execute();
 $userSettings = $stmtThreshold->fetch(PDO::FETCH_ASSOC);
-$currentThreshold = $userSettings['low_stock_threshold'] ?? 5; // Default to 5 if not set
+$currentThreshold = $userSettings['low_stock_threshold'] ?? 5;
 
-// Handle form submission for updating the threshold
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $threshold = isset($_POST["threshold"]) ? (int)$_POST["threshold"] : null;
 
