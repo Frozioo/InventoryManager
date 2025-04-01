@@ -53,14 +53,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup - Inventory Manager</title>
+    <title>Signup - Stockify</title>
     <link rel="stylesheet" href="CSS/stylesheet.css">
     <link rel="icon" href="assets/inventory-system.png">
 </head>
 <body>
         <!-- Sidebar Navigation -->
         <nav class="sidebar">
-            <h2>Inventory Manager</h2>
+            <h2>Stockify</h2>
             <ul>
                 <li><a href="index.php">Home</a></li>
                 <li><a href="login.php">Login</a></li>

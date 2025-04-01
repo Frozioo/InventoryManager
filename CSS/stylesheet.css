@@ -387,7 +387,7 @@ table {
 
 @media (max-width: 2600px) {
   table {
-    min-width: 2025px;
+    min-width: 2300px;
   }
 }
 
@@ -588,6 +588,61 @@ table td.description {
   border: none;
   cursor: pointer;
 } */
+
+/* Actions Column Buttons */
+.edit-btn,
+.btn3 {
+  display: inline-flex; /* Ensure buttons are inline */
+  align-items: center; /* Vertically center the content */
+  justify-content: center;
+  margin-right: 10px; /* Add spacing between buttons */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+}
+
+.edit-btn svg,
+.btn3 svg {
+  width: 20px;
+  height: 20px;
+  fill: #555;
+  transition: fill 0.3s ease;
+}
+
+.edit-btn:hover svg,
+.btn3:hover svg {
+  fill: #007bff; /* Change color on hover */
+}
+
+/* Hide the Actions column header */
+#inventoryTable th.actions {
+  visibility: hidden; /* Make the header invisible */
+  height: 0; /* Remove the height of the header */
+  padding: 0; /* Remove padding to avoid extra space */
+  border: none; /* Remove the border for a seamless look */
+}
+
+/* Make the background of the Actions column transparent */
+#inventoryTable td.actions {
+  background-color: #f4f4f4; /* Make the background invisible */
+  border: none; /* Remove the border if needed */
+  padding: 0; /* Adjust padding to ensure proper alignment */
+}
+
+/* Initially hide the buttons */
+#inventoryTable td.actions .edit-btn,
+#inventoryTable td.actions .btn3 {
+  opacity: 0; /* Make buttons invisible */
+  transition: opacity 0.3s ease; /* Smooth transition for visibility */
+}
+
+/* Show the buttons when hovering over the row */
+#inventoryTable tr:hover td.actions .edit-btn,
+#inventoryTable tr:hover td.actions .btn3 {
+  opacity: 1; /* Make buttons visible */
+}
 
 .edit-btn {
   width: 22px;
@@ -921,6 +976,7 @@ table td.description {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .feature img {
@@ -937,6 +993,11 @@ table td.description {
 .feature p {
   font-size: 16px;
   color: #666;
+}
+
+.feature:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Testimonials Section */
@@ -963,6 +1024,7 @@ table td.description {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for scaling and shadow */
 }
 
 .testimonial p {
@@ -975,6 +1037,11 @@ table td.description {
   font-size: 18px;
   color: #333;
   font-weight: bold;
+}
+
+.testimonial:hover {
+  transform: scale(1.05); /* Slightly enlarge the testimonial on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a more prominent shadow */
 }
 
 /* Call-to-Action Section */
