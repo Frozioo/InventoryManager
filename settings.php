@@ -61,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <main class="content">
             <h1>Settings</h1>
             <p>Update your settings below.</p>
+            <br>
             <form class="settings-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <label for="threshold">Low Stock Threshold:</label>
                 <input type="number" id="threshold" name="threshold" value="<?php echo htmlspecialchars($currentThreshold); ?>" min="0" required>

@@ -998,29 +998,6 @@ table td.description {
   margin-bottom: 20px;
 }
 
-.low-stock-alert {
-  background-color: #ffcccc;
-  border: 1px solid #ff0000;
-  color: #800000;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-}
-
-.low-stock-alert h3 {
-  margin: 0 0 10px 0;
-}
-
-.low-stock-alert ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.low-stock-alert li {
-  margin: 5px 0;
-}
-
 /* Beginning of Settings Page */
 
 .settings-form {
@@ -1069,7 +1046,7 @@ table td.description {
 /* Top Navbar */
 .top-navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
   background-color: #2c3e50;
   padding: 10px 20px;
@@ -1081,38 +1058,10 @@ table td.description {
   font-size: 24px;
 }
 
-.top-navbar button {
-  background-color: #ffcc00;
-  color: black;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.top-navbar button:hover {
-  background-color: #e6b800;
-}
-
 /* Low Stock Dropdown */
 .low-stock-container {
   position: relative;
   display: inline-block;
-}
-
-.low-stock-btn {
-  background-color: #ffcc00;
-  color: black;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.low-stock-btn:hover {
-  background-color: #e6b800;
 }
 
 .low-stock-dropdown-content {
@@ -1125,7 +1074,7 @@ table td.description {
   border-radius: 5px;
   padding: 10px;
   margin-top: 5px;
-  right: 0; /* Align the dropdown to the left by anchoring it to the right of the container */
+  right: 0;
 }
 
 .low-stock-dropdown-content.show {
@@ -1154,3 +1103,67 @@ table td.description {
   font-size: 14px;
   color: #555;
 }
+
+.low-stock-btn {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(44, 44, 44);
+  border-radius: 50%;
+  cursor: pointer;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+  border: none;
+}
+
+.bell {
+  width: 18px;
+}
+
+.bell path {
+  fill: white;
+}
+
+.low-stock-btn:hover {
+  background-color: rgb(56, 56, 56);
+}
+
+.low-stock-btn:hover .bell {
+  animation: bellRing 0.9s both;
+}
+
+/* bell ringing animation keyframes*/
+@keyframes bellRing {
+  0%,
+  100% {
+    transform-origin: top;
+  }
+
+  15% {
+    transform: rotateZ(10deg);
+  }
+
+  30% {
+    transform: rotateZ(-10deg);
+  }
+
+  45% {
+    transform: rotateZ(5deg);
+  }
+
+  60% {
+    transform: rotateZ(-5deg);
+  }
+
+  75% {
+    transform: rotateZ(2deg);
+  }
+}
+
+.low-stock-btn:active {
+  transform: scale(0.8);
+}
+/* End of Top Navbar */
