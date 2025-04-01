@@ -61,6 +61,20 @@
     $stmtItems->bindParam(':category_id', $selected_category_id);
     $stmtItems->execute();
     $items = $stmtItems->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch the user's low stock threshold
+    $stmtThreshold = $conn->prepare("SELECT low_stock_threshold FROM UserSettings WHERE user_id = :user_id");
+    $stmtThreshold->bindParam(':user_id', $user_id);
+    $stmtThreshold->execute();
+    $userSettings = $stmtThreshold->fetch(PDO::FETCH_ASSOC);
+    $low_stock_threshold = $userSettings['low_stock_threshold'] ?? 5; // Default to 5 if not set
+
+    // Fetch items with low stock
+    $stmtLowStock = $conn->prepare("SELECT item_name, quantity FROM Inventory WHERE user_id = :user_id AND quantity < :threshold");
+    $stmtLowStock->bindParam(':user_id', $user_id);
+    $stmtLowStock->bindParam(':threshold', $low_stock_threshold);
+    $stmtLowStock->execute();
+    $low_stock_items = $stmtLowStock->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,6 +87,24 @@
 </head>
 <body>
     <div class="container">
+            <!-- Top Navbar -->
+            <div class="top-navbar">
+                <h1>Inventory Manager</h1>
+                <div class="low-stock-container">
+                    <button id="lowStockButton" class="low-stock-btn" onclick="toggleLowStockDropdown()">Alerts</button>
+                    <div id="lowStockDropdown" class="low-stock-dropdown-content">
+                        <?php if (!empty($low_stock_items)): ?>
+                            <ul>
+                                <?php foreach ($low_stock_items as $item): ?>
+                                    <li><?php echo $item['item_name']; ?>: Only <?php echo $item['quantity']; ?> left in stock!</li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php else: ?>
+                            <p>No items are below the low stock threshold.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
             <!-- Sidebar Navigation -->
             <nav class="sidebar">
             <h2>Inventory Manager</h2>
@@ -89,6 +121,7 @@
                         </ul>
                     </li>
                     <li><a href="profile.php">Profile</a></li>
+                    <li><a href="settings.php">Settings</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
                 <h5>Copyright © 2025 Trey Larson</h5>
@@ -275,6 +308,26 @@
                 </div>
             </main>
     </div>
+
+    <script>
+        function toggleLowStockDropdown() {
+            const dropdown = document.getElementById("lowStockDropdown");
+            dropdown.classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.low-stock-btn')) {
+                const dropdowns = document.getElementsByClassName("low-stock-dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        };
+    </script>
     
 
     <script>
@@ -517,5 +570,6 @@
             }
         }
     </script>
+
 </body>
 </html>
