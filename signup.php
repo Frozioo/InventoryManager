@@ -35,6 +35,14 @@
                     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                     $stmt->bindParam(':password', $hashed_password);
                     $stmt->execute();
+                    // Get the user_id of the newly created user
+                    $userId = $conn->lastInsertId();
+
+                    $defaultThreshold = 5;
+                    $stmtSettings = $conn->prepare("INSERT INTO UserSettings (user_id, low_stock_threshold) VALUES (:user_id, :threshold)");
+                    $stmtSettings->bindParam(':user_id', $userId);
+                    $stmtSettings->bindParam(':threshold', $defaultThreshold);
+                    $stmtSettings->execute();
 
                     header('Location: index.php');
                     exit;
