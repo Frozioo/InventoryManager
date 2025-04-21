@@ -70,6 +70,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p class="message"><?php echo $message; ?></p>
                 <?php endif; ?>
             </form>
+            <!-- Delete Account Button -->
+            <br>
+            <h2>Delete Account</h2>
+            <p>Sorry to see you go! If you wish to delete your account, please click the button below. This action cannot be undone.</p>
+            <br>
+            <form class="settings-form" action="deleteAccount.php" method="POST" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+                <button type="submit">Delete Account</button>
+            </form>
         </main>
     </div>
 </body>

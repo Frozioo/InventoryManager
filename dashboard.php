@@ -16,12 +16,21 @@
 
     if (isset($_POST['category_name'])) {
         $category_name = $_POST['category_name'];
-
+    
         $stmtInsertCategory = $conn->prepare('INSERT INTO InventoryCategories (user_id, category_name) VALUES (:user_id, :category_name)');
         $stmtInsertCategory->bindParam(':user_id', $user_id);
         $stmtInsertCategory->bindParam(':category_name', $category_name);
         $stmtInsertCategory->execute();
-
+    
+        // Get the ID of the newly created category
+        $category_id = $conn->lastInsertId();
+    
+        // Create a folder for the category
+        $categoryFolder = __DIR__ . "/uploads/category_$category_id";
+        if (!file_exists($categoryFolder)) {
+            mkdir($categoryFolder, 0777, true);
+        }
+    
         header('Location: dashboard.php');
         exit;
     }
@@ -32,17 +41,36 @@
         $quantity = $_POST['quantity'];
         $price = $_POST['price'];
         $category_id = $_POST['category_id'];
+    
+        // Handle image upload
+        $imagePath = null;
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            if ($_FILES['image']['size'] > 1048576) {
+                $_SESSION['error'] = "The uploaded file exceeds the size limit of 1 MB.";
+                header('Location: dashboard.php?category_id=' . $category_id);
+                exit;
+            }
+            $uploadDir = __DIR__ . "/uploads/category_$category_id/";
+            $imageName = basename($_FILES['image']['name']);
+            $imagePath = $uploadDir . $imageName;
 
-        $stmtInsertItem = $conn->prepare('INSERT INTO Inventory (user_id, category_id, item_name, description, quantity, price) VALUES (:user_id, :category_id, :item_name, :description, :quantity, :price)');
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+                die("Failed to upload image.");
+            }
+
+            $imagePath = "uploads/category_$category_id/" . $imageName;
+        }
+    
+        $stmtInsertItem = $conn->prepare('INSERT INTO Inventory (user_id, category_id, item_name, description, quantity, price, image_path, image_status) VALUES (:user_id, :category_id, :item_name, :description, :quantity, :price, :image_path, "Pending")');
         $stmtInsertItem->bindParam(':user_id', $user_id);
         $stmtInsertItem->bindParam(':category_id', $category_id);
         $stmtInsertItem->bindParam(':item_name', $item_name);
         $stmtInsertItem->bindParam(':description', $description);
         $stmtInsertItem->bindParam(':quantity', $quantity);
         $stmtInsertItem->bindParam(':price', $price);
+        $stmtInsertItem->bindParam(':image_path', $imagePath);
         $stmtInsertItem->execute();
-
-        // Redirect to avoid form resubmission
+    
         header('Location: dashboard.php?category_id=' . $category_id);
         exit;
     }
@@ -134,6 +162,11 @@
             </nav>
 
             <main class="content">
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="error-message">
+                        <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                    </div>
+                <?php endif; ?>
                 <h1>Dashboard</h1>
                 <!-- Display which category the user is currently in -->
                 <h2><?php echo $categories[array_search($selected_category_id, array_column($categories, 'category_id'))]['category_name']; ?></h2>
@@ -162,10 +195,10 @@
                         </svg>
                         </button>
                         <div id="sortDropdown" class="sort-dropdown-content">
-                            <a href="javascript:void(0)" onclick="sortTable(2, 'asc')">Quantity (Asc)</a>
-                            <a href="javascript:void(0)" onclick="sortTable(2, 'desc')">Quantity (Desc)</a>
-                            <a href="javascript:void(0)" onclick="sortTable(3, 'asc')">Price (Asc)</a>
-                            <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Price (Desc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(3, 'asc')">Quantity (Asc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(3, 'desc')">Quantity (Desc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(4, 'asc')">Price (Asc)</a>
+                            <a href="javascript:void(0)" onclick="sortTable(4, 'desc')">Price (Desc)</a>
                         </div>
                     </div>
                     <!-- Allows the user to add a category -->
@@ -214,12 +247,12 @@
                 <div id="itemModal" class="modal">
                     <div class="modal-content">
                         <span class="close">&times;</span>
-                        <form method="POST" action="dashboard.php">
+                        <form method="POST" action="dashboard.php" enctype="multipart/form-data">
                             <label for="item_name">Item Name:</label>
                             <input type="text" id="item_name" name="item_name" required maxlength="40"><br><br>
                             
                             <label for="description">Description:</label>
-                            <input type="text" id="description" name="description" maxlength="78"></input><br><br>
+                            <input type="text" id="description" name="description" maxlength="78"><br><br>
                             
                             <label for="quantity">Quantity:</label>
                             <input type="number" id="quantity" name="quantity" required><br><br>
@@ -235,27 +268,41 @@
                                     </option>
                                 <?php endforeach; ?>
                             </select><br><br>
-                            <br>
+
+                            <label for="image">Upload Image (Max: 1 MB):</label>
+                            <input type="file" id="image" name="image" accept="image/*"><br><br>
+
                             <button class="item-button" type="submit">Add Item</button>
                         </form>
                     </div>
                 </div>
-                <div class="table-container">                   
-                    <table id="inventoryTable">
+                <table id="inventoryTable">
+                    <tr>
+                        <th>Image</th>
+                        <th>Item</th>
+                        <th class="description">Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th class="actions">Actions</th>
+                    </tr>
+                    <?php foreach ($items as $item): ?>
                         <tr>
-                            <th>Item</th>
-                            <th class="description">Description</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th class="actions">Actions</th>
-                        </tr>
-                        <?php foreach ($items as $item): ?>
-                            <tr>
-                                <td><?php echo $item['item_name']; ?></td>
-                                <td class="description"><?php echo $item['description']; ?></td>
-                                <td><?php echo $item['quantity']; ?></td>
-                                <td><?php echo $item['price']; ?></td>
-                                <td class="actions">
+                            <td>
+                                <?php if (!empty($item['image_path'])): ?>
+                                    <?php if ($item['image_status'] === 'Approved'): ?>
+                                        <img src="<?php echo $item['image_path']; ?>" alt="Item Image" style="max-width: 100px; max-height: 100px;">
+                                    <?php else: ?>
+                                        <p>Image Pending Approval</p>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <p>N/A</p>
+                                <?php endif; ?>
+                            </td>
+                            <td><?php echo $item['item_name']; ?></td>
+                            <td class="description"><?php echo $item['description']; ?></td>
+                            <td><?php echo $item['quantity']; ?></td>
+                            <td><?php echo $item['price']; ?></td>
+                            <td class="actions">
                                     <!-- Edit Button -->
                                     <button class="edit-btn" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($item)); ?>)">
                                         <svg class="edit-svgIcon" viewBox="0 0 512 512">
@@ -281,27 +328,32 @@
                 <div id="editItemModal" class="modal">
                     <div class="modal-content">
                         <span class="close" onclick="closeEditModal()">&times;</span>
-                        <form method="POST" action="editItem.php">
+                        <form method="POST" action="editItem.php" enctype="multipart/form-data">
                             <input type="hidden" id="edit_item_id" name="item_id">
                             <input type="hidden" id="edit_category_id_hidden" name="category_id"> <!-- Hidden input for category_id -->
+
                             <label for="edit_item_name">Item Name:</label>
                             <input type="text" id="edit_item_name" name="item_name" required maxlength="40"><br><br>
-                            
+
                             <label for="edit_description">Description:</label>
                             <input type="text" id="edit_description" name="description" maxlength="78"><br><br>
-                            
+
                             <label for="edit_quantity">Quantity:</label>
                             <input type="number" id="edit_quantity" name="quantity" required><br><br>
-                            
+
                             <label for="edit_price">Price:</label>
                             <input type="number" step="0.01" id="edit_price" name="price" required><br><br>
-                            
+
                             <label for="edit_category_id">Category:</label>
                             <select id="edit_category_id" name="category_id" required>
                                 <?php foreach ($categories as $category): ?>
                                     <option value="<?php echo $category['category_id']; ?>"><?php echo $category['category_name']; ?></option>
                                 <?php endforeach; ?>
                             </select><br><br>
+
+                            <label for="edit_image">Upload New Image (Optional, Max: 1 MB):</label>
+                            <input type="file" id="edit_image" name="image" accept="image/*"><br><br>
+
                             <button class="item-button" type="submit">Save Changes</button>
                         </form>
                     </div>
@@ -470,21 +522,30 @@
     <script>
         // Allows the user to be able to search for items in their inventory table
         function filterTable() {
-            var input, filter, table, tr, td, i, txtValue;
+            var input, filter, table, tr, td, i, j, txtValue, found;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
             table = document.getElementById("inventoryTable");
             tr = table.getElementsByTagName("tr");
 
-            for (i = 1; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+            for (i = 1; i < tr.length; i++) { // Start from 1 to skip the header row
+                td = tr[i].getElementsByTagName("td");
+                found = false;
+
+                for (j = 0; j < td.length; j++) { // Loop through all columns
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
                     }
+                }
+
+                if (found) {
+                    tr[i].style.display = ""; // Show the row if a match is found
+                } else {
+                    tr[i].style.display = "none"; // Hide the row if no match is found
                 }
             }
         }
@@ -549,7 +610,7 @@
             document.getElementById("edit_quantity").value = item.quantity;
             document.getElementById("edit_price").value = item.price;
             document.getElementById("edit_category_id").value = item.category_id;
-            document.getElementById("edit_category_id_hidden").value = item.category_id; // Set hidden category_id
+            document.getElementById("edit_category_id_hidden").value = item.category_id;
 
             document.getElementById("editItemModal").style.display = "block";
         }

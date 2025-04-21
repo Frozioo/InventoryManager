@@ -25,6 +25,7 @@
     $stmtUsers = $conn->prepare("SELECT * FROM Users");
     $stmtUsers->execute();
     $users = $stmtUsers->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -42,6 +43,7 @@
             <h2>Admin Portal</h2>
             <ul>
                 <li><a href="adminPortal.php">Manage Users</a></li>
+                <li><a href="imageTable.php">Image Approval</a></li>
                 <li><a href="javascript:void(0)" onclick="openAddUserModal()">Add User</a></li>
                 <li><a href="javascript:void(0)" onclick="openDeleteUserModal()">Delete User</a></li>
                 <li><a href="logout.php">Logout</a></li>
