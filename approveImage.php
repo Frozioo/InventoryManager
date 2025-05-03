@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtApprove->bindParam(':item_id', $item_id);
     $stmtApprove->execute();
 
-    header('Location: adminPortal.php');
+    header('Location: imageTable.php');
     exit;
 }
 ?>

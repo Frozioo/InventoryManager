@@ -20,14 +20,13 @@ if ($stmt->rowCount() === 0) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = $_POST['item_id'];
 
-    // Get the image path to delete the file
     $stmtGetImage = $conn->prepare("SELECT image_path FROM Inventory WHERE item_id = :item_id");
     $stmtGetImage->bindParam(':item_id', $item_id);
     $stmtGetImage->execute();
     $imagePath = $stmtGetImage->fetch(PDO::FETCH_ASSOC)['image_path'];
 
     if (!empty($imagePath) && file_exists(__DIR__ . '/' . $imagePath)) {
-        unlink(__DIR__ . '/' . $imagePath); // Delete the file
+        unlink(__DIR__ . '/' . $imagePath);
     }
 
     // Delete the item from the database
@@ -35,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmtDelete->bindParam(':item_id', $item_id);
     $stmtDelete->execute();
 
-    header('Location: adminPortal.php');
+    header('Location: imageTable.php');
     exit;
 }
 ?>

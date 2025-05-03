@@ -76,7 +76,7 @@
             <br>
             <form class="profile-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
                 <label for="email">Email:</label>
-                <input type="text" id="email" name="email" value="<?php echo htmlspecialchars($row['email']); ?>" required>
+                <input type="text" id="email" name="email" value="<?php echo htmlspecialchars($row['email']); ?>" readonly>
 
                 <label for="password">New Password:</label>
                 <input type="password" id="password" name="password">
