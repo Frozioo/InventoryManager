@@ -1,4 +1,10 @@
+
 <?php
+/*
+ * Main page for Stockify
+ * User will be able to view the home page and sign up for an account
+ * and login to their account
+ */
     require '/home/tmlarson/connections/connect.php';
 ?>
 
@@ -25,7 +31,6 @@
 
     <main class="content">
         <section class="welcome">
-            <!-- <img src="assets/cover-image.webp" alt="Inventory Management" class="welcome-image"> -->
             <div class="welcome-text">
                 <h1>Welcome to Stockify</h1>
                 <p>Streamline your inventory management with our powerful and user-friendly platform.</p>

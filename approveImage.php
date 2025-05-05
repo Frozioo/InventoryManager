@@ -17,6 +17,11 @@ if ($stmt->rowCount() === 0) {
     exit;
 }
 
+/**
+ * Allows the admin to approve an image for an item.
+ * It will update the image status to 'Approved' in the database
+ * and redirect the admin back to the image approval page.
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $item_id = $_POST['item_id'];
 

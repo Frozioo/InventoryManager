@@ -1,4 +1,8 @@
 <?php
+    /* 
+    * This allows the user to delete an item from their inventory.
+    * It will delete the item from the database and redirect the user back to the dashboard.
+    */
     session_start();
     require "/home/tmlarson/connections/connect.php";
     $itemID = $_GET['item_id'];

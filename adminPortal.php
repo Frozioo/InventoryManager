@@ -1,4 +1,10 @@
 <?php
+    /**
+     * This page allows the admin to manage users.
+     * It will display all users in a table and allow the admin to add or delete users.
+     * It will also allow the admin to view the image approval page.
+     */
+
     require '/home/tmlarson/connections/connect.php';
     session_start();
     if(!isset($_SESSION['email'])) {
@@ -20,8 +26,11 @@
         header('Location: dashboard.php');
         exit;
     }
-
-    // Fetch all users
+    /** 
+     * Fetch all users from the database
+     * This will be used to display all users in the table
+     * for the admin to view and manage.
+     */
     $stmtUsers = $conn->prepare("SELECT * FROM Users");
     $stmtUsers->execute();
     $users = $stmtUsers->fetchAll(PDO::FETCH_ASSOC);
@@ -110,6 +119,9 @@
         </div>
     </div>
 
+    <!-- /**
+    * Functions to open and close windows for adding and deleting users.
+    */ -->
     <script>
         // Add User Modal
         function openAddUserModal() {

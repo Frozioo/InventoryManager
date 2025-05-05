@@ -22,7 +22,12 @@
     }
 
 
-    // Fetch pending images
+    /**
+     * Fetch all images with status 'Pending' from the database
+     * This will be used to display all pending images in the table
+     * for the admin to approve or reject.
+     * The admin can approve or reject the image by clicking the respective button.
+     */
     $stmtPendingImages = $conn->prepare("SELECT * FROM Inventory WHERE image_status = 'Pending'");
     $stmtPendingImages->execute();
     $pendingImages = $stmtPendingImages->fetchAll(PDO::FETCH_ASSOC);

@@ -4,6 +4,13 @@
     $message = "";
     $empty = true;
 
+    /**
+     * This allows the user to create an account.
+     * It will insert the user into the database and redirect the user back to the index page.
+     * If the user already exists, it will display an error message.
+     * If the passwords do not match, it will display an error message.
+     * If the email is not valid, it will display an error message.
+     */
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = isset($_POST["email"]) ? trim($_POST["email"]) : null;
         $password = isset($_POST["password"]) ? trim($_POST["password"]) : null;

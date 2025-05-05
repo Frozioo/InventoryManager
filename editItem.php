@@ -16,23 +16,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price = $_POST['price'];
     $category_id = $_POST['category_id'];
 
-    // Handle image upload
+    /**
+     * Handles the form submission for editing an item.
+     * If the user uploads a new image, it will be saved to the server and the old image will be deleted.
+     * If the user does not upload a new image, the old image will remain unchanged.
+     * The item is updated in the database and the user is redirected to the dashboard.
+     */
     $imagePath = null;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        // Check file size (limit to 1 MB)
+        // A check to make sure the uploaded file must be less than 1 MB, since anything over 1 MB makes the image take a while to load on the dashboard
         if ($_FILES['image']['size'] > 1048576) {
             $_SESSION['error'] = "The uploaded file exceeds the size limit of 1 MB.";
             header('Location: dashboard.php?category_id=' . $category_id);
             exit;
         }
 
-        // Get the current image path to delete the old image
         $stmtGetImage = $conn->prepare('SELECT image_path FROM Inventory WHERE item_id = :item_id');
         $stmtGetImage->bindParam(':item_id', $item_id);
         $stmtGetImage->execute();
         $currentImage = $stmtGetImage->fetch(PDO::FETCH_ASSOC)['image_path'];
 
-        // Upload the new image
         $uploadDir = __DIR__ . "/uploads/category_$category_id/";
         $imageName = basename($_FILES['image']['name']);
         $imagePath = $uploadDir . $imageName;
@@ -46,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unlink(__DIR__ . '/' . $currentImage);
         }
 
-        // Save the relative path to the database
         $imagePath = "uploads/category_$category_id/" . $imageName;
     }
 

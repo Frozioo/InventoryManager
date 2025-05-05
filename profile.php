@@ -9,6 +9,11 @@
         header('Location: index.php');
         exit;
     }
+    /** 
+     * Updates the user's profile information, specifically their email and password.
+     * It will update the user's information in the database and redirect the user back to the profile page.
+     * There is a check to make sure the users password matches the confirmation password.
+     */
     $stmt = $conn->prepare("SELECT email FROM Users WHERE email = :email");
     $stmt->bindParam(':email', $_SESSION['email']);
     $stmt->execute();

@@ -1,7 +1,15 @@
 <?php
     // Needed for MariaDB to work with PHP
     require '/home/tmlarson/connections/connect.php';
+
     session_start();
+
+    /** 
+     * Handles the form submission for user login.
+     * If the user is found in the database, they are redirected to the dashboard.
+     * If the user is an admin, they are redirected to the admin portal.
+     * If the user is not found, an error message is displayed.
+     */
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = $_POST['email'];
         $password = $_POST['password'];

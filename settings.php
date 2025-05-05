@@ -7,6 +7,10 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
+/** 
+ * This allows the user to update their low stock threshold.
+ * It will update the user's settings in the database and display a success message.
+ */
 $stmtThreshold = $conn->prepare("SELECT low_stock_threshold FROM UserSettings WHERE user_id = (SELECT user_id FROM Users WHERE email = :email)");
 $stmtThreshold->bindParam(':email', $_SESSION['email']);
 $stmtThreshold->execute();

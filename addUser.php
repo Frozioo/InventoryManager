@@ -1,4 +1,8 @@
 <?php
+    /**
+     * This page allows the admin to add a new user to the system.
+     * It will insert the user into the database and redirect the admin back to the admin portal.
+     */
     require '/home/tmlarson/connections/connect.php';
     session_start();
 
